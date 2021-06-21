@@ -1,0 +1,80 @@
+App\Entity\User:
+  user_{1} :
+    email :	'admin@oplanet.fr'
+    password : '\$argon2id\$v=19\$m=65536,t=4,p=1\$MOfqSm5MmvMCcpZWP7Uyyg\$49aOl8/gAN6OfIvYfxc6eRhcz9/mA8+SjLOY/Bku5YY'
+    roles : ["ROLE_ADMIN"]
+    user_alias : 'admin'
+    firstname :	'$user_alias'
+    lastname : '$user_alias'
+    is_banned :	0
+    created_at : '<dateTimeBetween("-400 days", "now")>'
+    last_connection_at : '<dateTimeBetween($created_at, "now")>'
+  user_{2} :
+    email :	'anonymous@oplanet.fr'
+    password : '\$argon2id\$v=19\$m=65536,t=4,p=1\$EtVGsAB5rPaxRmRbU0Z70A\$glnRQHPRU7pHOnRfkZdzIsMxuLoEty5b5tfG6PiLL9s'
+    roles : ["ROLE_ADMIN"]
+    user_alias : 'anonymous'
+    firstname :	'$user_alias'
+    lastname : '$user_alias'
+    is_banned :	0
+    created_at : '<dateTimeBetween("-400 days", "now")>'
+    last_connection_at : '<dateTimeBetween($created_at, "now")>'
+  user_{3..30} :
+    email (unique) :	<email()>
+    password : '\$argon2id\$v=19\$m=65536,t=4,p=1\$AifUc65utncrsHqSFcM8Ew\$cKvPR3sDQmG0updZ9FxGioy7/JhH1sFqpNuPDlIlZmU'
+    roles : []
+    user_alias (unique) : <username()>
+    firstname (unique) :	<firstName()>
+    lastname : <lastName()>
+    is_banned :	'0'
+    created_at : '<dateTimeBetween("-400 days", "now")>'
+    last_connection_at : '<dateTimeBetween($created_at, "now")>'
+
+App\Entity\Emergency:
+  emergency_{1}:
+    name : 'Elevée'
+    example : "Risque d'empoisonnement des sols"
+  emergency_{2} :
+    name : 'Moyenne'
+    example: "Danger pour la faune et les promeneurs"
+  emergency_{3}:
+    name: 'Faible'
+    example: "Nuisance esthétique"
+
+App\Entity\Waste:
+  waste_{1}:
+    name : 'Matériaux de chantier'
+  waste_{2}:
+    name : 'Produits chimiques'
+  waste_{3}:
+    name : 'Epave de véhicule'
+  waste_{4}:
+    name : 'Détritus'
+  waste_{5}:
+    name : 'Electroménager / meubles'
+  waste_{6}:
+    name : 'Autres'
+
+App\Entity\Dump:
+  dump_{1..73}:
+    title : '<sentence()>'
+    latitude_coordinate (unique): '<numberBetween(44,49)>.<numberBetween(17224337980551,334668709211705)>'
+    longitude_coordinate (unique): '<numberBetween(0,5)>.<numberBetween(725900291898807,9621033291084569)>'
+    picture1 : '000-dump-placeholder.jpg'
+    description : '<sentence()>'
+    is_closed : '<numberBetween(0,1)>'
+    created_at : '<dateTimeBetween("-200 days", "now")>'
+    updated_at : '<dateTimeBetween($created_at, "now")>'
+    emergency : '@emergency*'
+    user : '@user*'
+    waste: ['@waste*', '@waste*']
+
+
+App\Entity\Removal:
+  removal_{1..130} :
+    is_finished : '<numberBetween(0,1)>'
+    created_at : '<dateTimeBetween("-400 days", "now")>'
+    date : '<dateTimeBetween($created_at, "+60days")>'
+    creator : '@user*'
+    dump: '@dump*'
+

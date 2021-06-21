@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Removal{% endblock %}
+
+{% block body %}
+    <h1>Créer une action de ramassage</h1>
+    <a href="{{ path('admin_removal_browse') }}" class="btn btn-outline-secondary">Annuler</a>
+
+    {{ include('admin/removal/_form.html.twig') }}
+{% endblock %}

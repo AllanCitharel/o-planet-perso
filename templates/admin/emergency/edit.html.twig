@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Emergency{% endblock %}
+
+{% block body %}
+    <h1>Modifier le niveau d'urgence</h1>
+    <a href="{{ path('admin_emergency_browse') }}" class="btn btn-outline-secondary">Annuler</a>
+
+    {{ include('admin/emergency/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {{ include('admin/emergency/_delete_form.html.twig') }}
+{% endblock %}

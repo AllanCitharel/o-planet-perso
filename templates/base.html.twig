@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+            <link rel="stylesheet" href="{{asset('build/app.b9a2281c.css')}}">
+            {# {{ encore_entry_link_tags('app') }} #}
+
+        {% endblock %}
+
+    </head>
+    <body>
+       {% if app.user %}
+       {# sidebar on each pages#}
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary min-vh-100 fixed-top left-panel">
+            <div class="d-flex flex-column min-vh-100">
+                <div>
+                    <a class="navbar-brand text-center" href="{{ path('admin_dump_browse') }}">Back-Office O-Planet</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <a href="http://oplanet.surge.sh/" target="_blank" class="back-to-oplanet-link">Retourner sur O'planet</a>
+                </div>
+                <div>
+                    <nav class="navbar navbar-expand-lg navbar-dark d-flex align-items-start pl-0">
+                        <div class="collapse navbar-collapse" id="navbarColor01">
+                            <ul class="navbar-nav mr-auto d-flex flex-column">
+                                <li class="nav-item{{ 'statistics' in app.request.get('_route')  ? ' active' }}">
+                                    <a class="nav-link" href="{{ path('admin_statistics_dumps') }}"><i class="far fa-chart-bar"></i> Statistiques </a>
+                                    {{ 'statistics' in app.request.get('_route')  ? '<span class="sr-only">(Page courante)</span>' }}
+                                </li>
+                                <li class="nav-item{{ app.request.get('_route') == 'admin_dump_browse'  ? ' active' }}">
+                                    <a class="nav-link" href="{{ path('admin_dump_browse') }}"><i class="fas fa-dumpster"></i> Dumps</a>
+                                    {{ app.request.get('_route') == 'admin_dump_browse'   ? '<span class="sr-only">(Page courante)</span>' }}
+                                   
+                                </li>
+                                <li class="nav-item{{ 'removal' in app.request.get('_route')  ? ' active' }}">
+                                    <a class="nav-link pr-0" href="{{ path('admin_removal_browse') }}"><i class="fas fa-hand-sparkles mr-1"></i><span>Actions de Ramassage</span></a>
+                                    {{ 'removal' in app.request.get('_route')  ? '<span class="sr-only">(Page courante)</span>' }}
+                                </li>
+                                <li class="nav-item{{ 'emergency' in app.request.get('_route')  ? ' active' }}">
+                                    <a class="nav-link d-flex" href="{{ path('admin_emergency_browse') }}"><i class="fas fa-exclamation-triangle mt-1 mr-1"></i><span>Niveau d'urgence</span></a>
+                                    {{ 'emergency' in app.request.get('_route')  ? '<span class="sr-only">(Page courante)</span>' }}
+                                </li>
+                                <li class="nav-item{{ 'waste' in app.request.get('_route')  ? ' active' }}">
+                                    <a class="nav-link d-flex" href="{{ path('admin_waste_browse') }}"><i class="fas fa-biohazard mt-1 mr-1"></i><span>Types de déchets</span></a>
+                                    {{ 'waste' in app.request.get('_route')  ? '<span class="sr-only">(Page courante)</span>' }}
+                                </li>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item{{ app.request.get('_route') == 'admin_user_browse'  ? ' active' }}">
+                                    <a class="nav-link" href="{{ path('admin_user_browse') }}"><i class="fas fa-users"></i> Utilisateurs</a>
+                                    {{ app.request.get('_route') == 'admin_user_browse'  ? '<span class="sr-only">(Page courante)</span>' }}
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </nav> 
+                </div>
+            </div>
+        </nav>
+        {# Connection button #}
+        <div class="collapse navbar-collapse d-flex justify-content-end mt-3 mr-3" id="navbarColor01">
+            <p class="m-0">Connecté en tant que {{ app.user.userAlias }}</p>
+            <div>
+                <a href="{{ path('app_logout') }}">
+                    <button type="button" class="btn btn-primary ml-1 font-weight-bold">Déconnexion</button>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        {# Different content of each pages #}
+        <div class="mt-0 mr-3 contain">
+            {% block body %}{% endblock %}
+        </div>
+        {% block javascripts %}
+            {# {{ encore_entry_script_tags('app') }} #}
+
+            <script src="{{ asset('build/app.16dda8a7.js') }}"></script>
+            <script src="{{ asset('build/169.21de7fe3.js') }}"></script>
+            <script src="{{ asset('build/817.98d2cc87.js') }}"></script>
+            <script src="{{ asset('build/runtime.96aa4ea2.js') }}"></script>
+
+            {% if app.request.get('_route') == 'admin_dump_browse' 
+                or app.request.get('_route') == 'admin_emergency_browse'
+                or app.request.get('_route') == 'admin_removal_browse'
+                or app.request.get('_route') == 'admin_waste_browse'
+                or app.request.get('_route') == 'admin_user_browse'
+                %}
+                {# {{ encore_entry_script_tags('bo-dump') }} #}
+                <script src="{{ asset('build/bo-dump.6f48fa8a.js') }}"></script>
+                
+            {% endif %}
+
+            {% if app.request.get('_route') == 'admin_statistics_dumps' %}
+                {# {{ encore_entry_script_tags('bo-lineChart') }} #}
+                
+                <script src="{{ asset('build/bo-lineChart.ef700e62.js') }}"></script>
+            {% endif %}
+        {% endblock %}
+
+
+    </body>
+</html>

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Waste{% endblock %}
+
+{% block body %}
+    <h1>Créer un nouveau type de déchet</h1>
+    <a href="{{ path('admin_waste_browse') }}" class="btn btn-outline-secondary">Annuler</a>
+
+    {{ include('admin/waste/_form.html.twig') }}
+
+{% endblock %}

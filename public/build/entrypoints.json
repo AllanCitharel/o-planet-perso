@@ -1,0 +1,28 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.96aa4ea2.js",
+        "/build/817.98d2cc87.js",
+        "/build/169.21de7fe3.js",
+        "/build/app.4850c4c3.js"
+      ],
+      "css": [
+        "/build/app.b9a2281c.css"
+      ]
+    },
+    "bo-dump": {
+      "js": [
+        "/build/runtime.96aa4ea2.js",
+        "/build/bo-dump.6f48fa8a.js"
+      ]
+    },
+    "bo-lineChart": {
+      "js": [
+        "/build/runtime.96aa4ea2.js",
+        "/build/817.98d2cc87.js",
+        "/build/bo-lineChart.ef700e62.js"
+      ]
+    }
+  }
+}

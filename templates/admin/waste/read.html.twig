@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Waste{% endblock %}
+
+{% block body %}
+    <h1>Type de déchet</h1>
+    <button type="button" class="btn btn-outline-primary"><a href="{{ path('admin_waste_browse') }}">Retour à la liste</a></button>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <button type="button" class="btn btn-outline-primary"><a href="{{ path('admin_waste_edit', {'id': waste.id}) }}">Modifier</a></button>
+    {% endif %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ waste.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ waste.name }}</td>
+            </tr>
+            <tr>
+                <th>Créé le</th>
+                <td>{{ waste.createdAt ? waste.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modifié le</th>
+                <td>{{ waste.updatedAt ? waste.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ include('admin/waste/_delete_form.html.twig') }}
+    {% endif %}
+{% endblock %}

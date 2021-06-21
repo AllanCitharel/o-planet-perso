@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block body %}
+
+<h1>Statistiques de site</h1>
+{# {{ render_chart(chart) }} #}
+
+<div class="stats-buttons">
+    {% if app.request.get('_route') == 'admin_statistics_dumps' %}
+        
+        <form action="{{ path('admin_statistics_dumps') }}" method="get" class="lineChart">
+            <select name="dayLimit" id="dayLimit" class="statistics-btn btn btn-outline-primary{{ app.request.get('_route') == 'admin_statistics_dumps' ? ' btn-secondary' : '' }}">
+                <option value="7" {{app.request.get("dayLimit") == 7 ? 'Selected' }}>Dumps créés sur 1 semaine</option>
+                <option value="14" {{app.request.get("dayLimit") == 14 ? 'Selected' }}>Dumps créés sur 2 semaines</option>
+                <option value="30" {{app.request.get("dayLimit") == 30 or app.request.get("dayLimit") == null ? 'Selected' }}>Dumps créés sur 1 mois</option>
+                <option value="60" {{app.request.get("dayLimit") == 60 ? 'Selected' }}>Dumps créés sur 2 mois</option>
+            </select>
+        </form>
+    {% else %}
+            <a class="statistics-btn btn btn-outline-primary{{ app.request.get('_route') == 'admin_statistics_dumps' ? ' btn-secondary' : '' }}" href="{{ path('admin_statistics_dumps') }}">Nombre de dumps créés</a> 
+    {% endif %}
+    <a class="statistics-btn btn btn-outline-primary{{ app.request.get('_route') == 'admin_statistics_users' ? ' btn-secondary' : ''}}" href="{{ path('admin_statistics_users') }}">Activités utilisateurs</a>
+</div>
+
+{# You can pass HTML attributes as a second argument to add them on the <canvas> tag#}
+<div class="{{ app.request.get('_route') == 'admin_statistics_users' ? 'canvas-container' : '' }}">
+{% for chart in charts %}
+{{ render_chart(chart, {'class': chartClass}) }} 
+    
+{% endfor %}
+</div>
+
+
+{% endblock %}

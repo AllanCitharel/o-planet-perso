@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>Utilisateur</h1>
+    <a type="button" class="btn btn-outline-primary" href="{{ path('admin_user_browse') }}">Retour à la liste</a>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a type="button" class="btn btn-outline-primary" href="{{ path('admin_user_edit', {'id': user.id}) }}">Modifier</a>
+    {% endif %} 
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom d'utilisateur</th>
+                <td>{{ user.userAlias }}</td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ user.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ user.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Est-il banni ?</th>
+                <td>{{ user.isBanned ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Liste des dumps postés</th>
+                <td>
+                    <ul class="read-page-list">
+                    {% for dump in user.dumps %}
+                            <li><a href="{{ path('admin_dump_read', {'id': dump.id})}}" class="read-page__link">{{dump.title}}</a></li>
+                    {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Liste des campagnes créées</th>
+                <td>
+                    <ul class="read-page-list">
+                    {% for removal in user.removals %}
+                            <li><a href="{{ path('admin_removal_read', {'id': removal.id})}}" class="read-page__link">{{removal.date|date('d/m/Y')}}</a></li>
+                    {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Liste des campagnes souscrites</th>
+                <td>
+                    {% if user.subscribedRemoval.count == 0 %}
+                        L'utilisateur ne s'est pas encore inscrit à une campagne.
+                    {% else %}
+                    <ul class="read-page-list">
+                        {% for subscribedRemoval in user.subscribedRemoval %}
+                                <li><a href="{{ path('admin_removal_read', {'id': subscribedRemoval.id})}}" class="read-page__link">{{subscribedRemoval.date|date('d/m/Y')}}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Créé le</th>
+                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modifié le</th>
+                <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ include('admin/user/_delete_form.html.twig') }}
+    {% endif %} 
+
+   
+{% endblock %}

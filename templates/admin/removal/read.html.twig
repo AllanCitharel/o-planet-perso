@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Removal{% endblock %}
+
+{% block body %}
+    <h1>Action de ramassage</h1>
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('admin_removal_browse') }}">Retour à la liste</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a type="button" class="btn btn-outline-primary" href="{{ path('admin_removal_edit', {'id': removal.id}) }}">Modifier</a>
+    {% endif %} 
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ removal.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ removal.date ? removal.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Est-elle terminée ?</th>
+                <td>{{ removal.isFinished ? 'Yes' : 'No' }}</td>
+            </tr>
+             <tr>
+                <th>Dump de l'action de ramassage</th>
+                <td><a href="{{ path('admin_dump_read', {'id': removal.dump.id}) }}" class="read-page__link">{{ removal.dump.title }}</a></td>
+            </tr>
+            <tr>
+                <th>Créé le</th>
+                <td>{{ removal.createdAt ? removal.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Créé par</th>
+                <td><a href="{{ path('admin_user_read', {'id': removal.creator.id }) }}" class="read-page__link">{{ removal.creator.userAlias }}</a></td>
+            </tr>
+            <tr>
+                <th>Utilisateurs inscrit</th>
+                <td>
+                    {% if removal.subscribers.count == 0 %}
+                        Aucun utilisateur inscrit
+                    {% else %}
+                    <ul class="read-page-list">
+                        {% for subscriber in removal.subscribers %}
+                            <li><a href="{{ path('admin_user_read', {'id': subscriber.id }) }}" class="read-page__link">{{ subscriber.userAlias }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Modifié le</th>
+                <td>{{ removal.updatedAt ? removal.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ include('admin/removal/_delete_form.html.twig') }}
+    {% endif %} 
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Emergency index{% endblock %}
+
+{% block body %}
+    <h1>Liste des niveaux d'urgence</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-outline-primary" href="{{ path('admin_emergency_add') }}">Ajouter un niveau d'urgence</a>
+    {% endif %} 
+    <div class="mt-3 table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table table-striped">
+            <thead class="table-primary">
+                <tr class="table-headers">
+                    <th>Id</th>
+                    <th>Niveau</th>
+                    <th>Créé le</th>
+                    <th>Modifié le</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for emergency in emergencies %}
+                <tr class="table-row" id="{{ emergency.id }}">
+                    <td>{{ emergency.id }}</td>
+                    <td>{{ emergency.name }}</td>
+                    <td>{{ emergency.createdAt ? emergency.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ emergency.updatedAt ? emergency.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('admin_emergency_edit', {'id': emergency.id}) }}" class="btn btn-secondary">Modifier <i class="fas fa-edit"></i></a>
+                        {% endif %} 
+                        
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    
+{% endblock %}

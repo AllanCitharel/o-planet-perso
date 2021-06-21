@@ -1,0 +1,56 @@
+/* .my-custom-scrollbar {
+    height: 80vh;
+    overflow: auto;
+    }
+
+.my-custom-scrollbar thead th {
+    position: sticky; top: -1px; z-index: 0;
+
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.table-wrapper-scroll-y th {
+    background:rgb(44, 62, 80); 
+}
+
+.left-panel{
+    width: 220px;
+}
+
+.contain{
+    margin-left: 230px; 
+    margin-top: 10px;
+}
+
+
+.margin-form{
+    margin-right : 230px;
+}
+
+a { 
+    color: rgb(44, 62, 80);
+    font-weight : bold;
+ }
+
+ a:hover{
+     text-decoration: none;
+ }
+
+ .small-cell{
+     width: 20%;
+ } */
+
+ /* .table-row {
+    position: relative !important;
+}
+.table-row:hover{
+    background-color: #52769a !important;
+    color: white !important;
+    cursor: pointer;
+}
+
+.table__button:hover{
+    color:white;
+} */

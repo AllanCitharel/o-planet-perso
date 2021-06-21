@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dump{% endblock %}
+
+{% block body %}
+    <h1>Dump</h1>
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('admin_dump_browse') }}">Retour à la liste</a>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a type="button" class="btn btn-outline-primary" href="{{ path('admin_dump_edit', {'id': dump.id}) }}">Modifier</a>
+    {% endif %} 
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ dump.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ dump.title }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ dump.latitudeCoordinate }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ dump.longitudeCoordinate }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>
+                    <img src="{{ asset('images/dumps/')}}{{dump.picture1}}" alt="{{ dump.title }}" style="width:500px;">
+                </td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ dump.description }}</td>
+            </tr>
+            <tr>
+                <th>Types de déchets</th>
+                <td>
+                {% if dump.wastes.count == 1 %}
+                    {{ dump.wastes[0].name }}
+                {% else %}
+                    <ul class="read-page-list">
+                        {% for waste in dump.wastes %}
+                            <li>{{ waste.name }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Est-il terminé ?</th>
+                <td>{{ dump.isClosed ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Campagnes</th>
+                <td>
+                    <ul class="read-page-list">
+                {% for removal in dump.removals %}
+                        <li><a href="{{ path('admin_removal_read', {'id': removal.id}) }}" class="read-page__link">{{ removal.date|date('d/m/Y') }}</a></li>
+                {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Créé le</th>
+                <td>{{ dump.createdAt ? dump.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Créé par</th>
+                <td><a href="{{ path('admin_user_read', {'id': dump.user.id}) }}">{{ dump.user.userAlias }}</a></td>
+            </tr>
+            <tr>
+                <th>Modifié le</th>
+                <td>{{ dump.updatedAt ? dump.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ include('admin/dump/_delete_form.html.twig') }}
+    {% endif %} 
+
+    
+{% endblock %}
